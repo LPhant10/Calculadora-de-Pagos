@@ -36,21 +36,28 @@ class _CalculadoraScreenState extends State<CalculadoraScreen> {
     double apuesta = double.tryParse(apuestaController.text) ?? 0.0;
 
     if (totalJugadores > 0) {
-      double pagoPorJugador;
+      double costoPorJugador = precioCancha / totalJugadores;
       
       if (empate) {
-        pagoPorJugador = precioCancha / totalJugadores;
         setState(() {
-          resultado = "Cada jugador paga: S/ ${pagoPorJugador.toStringAsFixed(2)}";
+          resultado = "Cada jugador paga (cancha): S/ ${costoPorJugador.toStringAsFixed(2)}";
         });
       } else {
         int perdedores = totalJugadores - ganadores;
-        double pagoGanadores = (precioCancha / totalJugadores) - apuesta;
-        double pagoPerdedores = (precioCancha / totalJugadores) + apuesta;
+        double pagoPerdedores = costoPorJugador + apuesta;
+        double pagoGanadores = costoPorJugador;
+        double gananciaGanadores = (apuesta * perdedores / ganadores) - costoPorJugador;
+        if (gananciaGanadores < 0) {
+          pagoGanadores = gananciaGanadores.abs();
+          gananciaGanadores = 0;
+        }
         
         setState(() {
-          resultado = "Jugadores ganadores pagan: S/ ${pagoGanadores.toStringAsFixed(2)}\n"
-                      "Jugadores perdedores pagan: S/ ${pagoPerdedores.toStringAsFixed(2)}";
+          resultado = "Total jugadores: $totalJugadores\n"
+                      "Pago por jugador(cancha): S/ ${costoPorJugador.toStringAsFixed(2)}\n"
+                      "Jugadores perdedores pagan: S/ ${pagoPerdedores.toStringAsFixed(2)}\n"
+                      "Jugadores ganadores pagan: S/ ${pagoGanadores.toStringAsFixed(2)}\n"
+                      "Jugadores ganadores ganan: S/ ${gananciaGanadores.toStringAsFixed(2)}";
         });
       }
     } else {
@@ -63,7 +70,7 @@ class _CalculadoraScreenState extends State<CalculadoraScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Calculadora de Pagos')),
+      appBar: AppBar(title: Text('Calculadora de Pagos by LPhant')),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(

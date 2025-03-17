@@ -14,11 +14,12 @@ class CalculadoraApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: CalculadoraScreen(),
-    );
+    );  
   }
 }
 
 class CalculadoraScreen extends StatefulWidget {
+  
   @override
   _CalculadoraScreenState createState() => _CalculadoraScreenState();
 }
@@ -54,7 +55,7 @@ class _CalculadoraScreenState extends State<CalculadoraScreen> {
         
         setState(() {
           resultado = "Total jugadores: $totalJugadores\n"
-                      "Pago por jugador(cancha): S/ ${costoPorJugador.toStringAsFixed(2)}\n"
+                      "Cada jugador paga (cancha): S/ ${costoPorJugador.toStringAsFixed(2)}\n"
                       "Jugadores perdedores pagan: S/ ${pagoPerdedores.toStringAsFixed(2)}\n"
                       "Jugadores ganadores pagan: S/ ${pagoGanadores.toStringAsFixed(2)}\n"
                       "Jugadores ganadores ganan: S/ ${gananciaGanadores.toStringAsFixed(2)}";
@@ -70,7 +71,9 @@ class _CalculadoraScreenState extends State<CalculadoraScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Calculadora de Pagos by LPhant')),
+      appBar: AppBar(title: Center(child: Text('Calculadora de Pagos by LPhant', style: TextStyle(color: Colors.white),)),
+      backgroundColor: Colors.red,
+      ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
@@ -96,7 +99,7 @@ class _CalculadoraScreenState extends State<CalculadoraScreen> {
               children: [
                 ElevatedButton(
                   onPressed: () => calcularPago(empate: true),
-                  child: Text('Empate'),
+                  child: Text('Empate',style: TextStyle(color: Colors.red),),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -121,14 +124,14 @@ class _CalculadoraScreenState extends State<CalculadoraScreen> {
                                   Navigator.pop(context);
                                 }
                               },
-                              child: Text("Aceptar"),
+                              child: Text("Aceptar", style: TextStyle(color: Colors.green),),
                             )
                           ],
                         );
                       },
                     );
                   },
-                  child: Text('Gana un equipo'),
+                  child: Text('Gana un equipo', style: TextStyle(color: Colors.green),),
                 ),
               ],
             ),
